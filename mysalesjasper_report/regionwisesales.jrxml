@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="regionwisesales" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="38b8f5cf-ebd1-4a97-89f2-2a4ec0a1db10">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sales"/>
+	<queryString language="SQL">
+		<![CDATA[select  i.productid,i.quantity,i.itemname, 
+s.salesid ,s.quantitysold,
+c.shop_name,t.city_name,
+r.regionname,x.monthname,
+x.quarter,x.year from sales
+  s inner join items
+   i on s.productid=i.productid 
+   inner join  shops
+    c on s.shopid=c.shopid inner join
+     cities t on c.cityid= t.cityid 
+      inner join regions r on t.regionid=r.regionid inner join
+ Time x where s.timeid=x.timeid]]>
+	</queryString>
+	<field name="PRODUCTID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="PRODUCTID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ITEMS"/>
+	</field>
+	<field name="QUANTITY" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="QUANTITY"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ITEMS"/>
+	</field>
+	<field name="ITEMNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ITEMNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ITEMS"/>
+	</field>
+	<field name="SALESID" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="SALESID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="SALES"/>
+	</field>
+	<field name="QUANTITYSOLD" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="QUANTITYSOLD"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="SALES"/>
+	</field>
+	<field name="SHOP_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="SHOP_NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="SHOPS"/>
+	</field>
+	<field name="CITY_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="CITY_NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="CITIES"/>
+	</field>
+	<field name="REGIONNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="REGIONNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="REGIONS"/>
+	</field>
+	<field name="MONTHNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="MONTHNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="TIME"/>
+	</field>
+	<field name="QUARTER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="QUARTER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="TIME"/>
+	</field>
+	<field name="YEAR" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="YEAR"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="TIME"/>
+	</field>
+	<variable name="QUANTITYSOLD1" class="java.lang.Integer" resetType="Group" resetGroup="RegionWise" calculation="Sum">
+		<variableExpression><![CDATA[$F{QUANTITYSOLD}]]></variableExpression>
+	</variable>
+	<variable name="QUANTITYSOLD2" class="java.lang.Integer" resetType="Group" resetGroup="Citywise" calculation="Sum">
+		<variableExpression><![CDATA[$F{QUANTITYSOLD}]]></variableExpression>
+	</variable>
+	<group name="REGIONNAME">
+		<groupExpression><![CDATA[$F{REGIONNAME}]]></groupExpression>
+	</group>
+	<group name="CITY_NAME">
+		<groupExpression><![CDATA[$F{CITY_NAME}]]></groupExpression>
+	</group>
+	<group name="RegionWise">
+		<groupHeader>
+			<band height="50">
+				<rectangle>
+					<reportElement x="160" y="0" width="610" height="40" backcolor="#B8615F" uuid="7f3f03ee-5312-4306-b871-098287d81efa"/>
+				</rectangle>
+				<textField>
+					<reportElement x="229" y="19" width="100" height="30" uuid="074df336-f072-418e-9389-598537f51415"/>
+					<textFieldExpression><![CDATA[$F{REGIONNAME}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="59">
+				<textField>
+					<reportElement x="520" y="0" width="235" height="30" uuid="1ebad6d2-bead-4c08-950c-0d8b6e81e870"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{QUANTITYSOLD1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="260" y="10" width="191" height="30" uuid="f1ad35dd-449c-41bc-b562-ad67f006e51f"/>
+					<textElement>
+						<font fontName="Aharoni" size="14"/>
+					</textElement>
+					<text><![CDATA[Quantity Sold Region Wise]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Citywise">
+		<groupHeader>
+			<band height="80">
+				<rectangle>
+					<reportElement x="300" y="-10" width="470" height="40" backcolor="#786060" uuid="834cfb9a-be81-4db6-802f-00f3ecf70db1"/>
+				</rectangle>
+				<textField>
+					<reportElement x="397" y="9" width="100" height="30" uuid="001297d9-d8b2-4b38-ba1c-0134296a8cd0"/>
+					<textFieldExpression><![CDATA[$F{CITY_NAME}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<staticText>
+					<reportElement x="260" y="10" width="191" height="30" uuid="142c7775-541a-4ef8-80db-e57218bd2f5d"/>
+					<textElement>
+						<font fontName="Aharoni" size="14"/>
+					</textElement>
+					<text><![CDATA[Quantity Sold City Wise]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="520" y="0" width="100" height="30" uuid="957a8092-ce5e-4cd5-9e02-50c760cb6230"/>
+					<textElement>
+						<font size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{QUANTITYSOLD2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="54" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-10" y="0" width="820" height="50" backcolor="#A5A8A7" uuid="b9d16482-574b-40d5-95c6-900a671d5707"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="180" y="10" width="380" height="30" uuid="0daed431-6efc-4cf1-b8b0-9fd9e723b27b"/>
+				<textElement>
+					<font fontName="Aharoni" size="20"/>
+				</textElement>
+				<text><![CDATA[Region Wise City Wise Sales Report]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="631" y="17" width="100" height="30" uuid="f9f88aec-f0e0-4979-b3b0-913ef1defe21"/>
+				<textFieldExpression><![CDATA[$F{YEAR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="94" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-11" y="10" width="821" height="50" backcolor="#83A893" uuid="9f7ae08b-f3ef-4f2a-ada8-629dc818987f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="20" y="20" width="100" height="30" uuid="5b2f7838-b092-41d5-87ba-d3c176aee31c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="689010ad-5d2e-41cf-9651-bf7b093199da"/>
+				</reportElement>
+				<text><![CDATA[ITEMNAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="20" width="100" height="30" uuid="f1bef3c6-1950-4ec8-9f09-8023ed3bc1f6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0fed46af-45d5-45c3-a065-582be80b15fa"/>
+				</reportElement>
+				<text><![CDATA[QUANTITYSOLD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="20" width="100" height="30" uuid="9278868b-a076-47e5-9639-0298fc4e6a3a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="60d96233-3b2f-4f27-a464-11ae666954b6"/>
+				</reportElement>
+				<text><![CDATA[SHOP_NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="20" width="110" height="30" uuid="ecf496c9-38c4-402f-9741-11e8d5cc9b98">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e6f00f8a-2a9a-406b-892b-62b753b68013"/>
+				</reportElement>
+				<text><![CDATA[MONTHNAME]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="631" y="21" width="100" height="30" uuid="f05c371b-ae75-4597-acce-49532eac43ea"/>
+				<textFieldExpression><![CDATA[$F{QUARTER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="655" y="0" width="100" height="30" uuid="baf431f6-0137-4bae-95c3-78f81eb86d6b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4c88f08a-0073-41fe-aafa-a3fe075ddb3d"/>
+				</reportElement>
+				<text><![CDATA[QUANTITYSOLD]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="190" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-10" y="0" width="810" height="90" backcolor="#DBAFA7" uuid="01735813-6aaf-4298-b70f-042fa18a3efe"/>
+			</rectangle>
+			<textField>
+				<reportElement x="20" y="30" width="100" height="30" uuid="18538d03-23a0-41c2-9bc8-5dd196da8e09">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="689010ad-5d2e-41cf-9651-bf7b093199da"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{ITEMNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="30" width="100" height="30" uuid="69cf9c3b-dd12-45e4-b71b-7486d3f85e2a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0fed46af-45d5-45c3-a065-582be80b15fa"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{QUANTITYSOLD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="30" width="100" height="30" uuid="e64ec89d-44e3-428a-968a-2861ad78ebcb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="60d96233-3b2f-4f27-a464-11ae666954b6"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SHOP_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="30" width="100" height="30" uuid="0c5bf6df-a2f2-40a8-88aa-0976d0f01dca">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e6f00f8a-2a9a-406b-892b-62b753b68013"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{MONTHNAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
